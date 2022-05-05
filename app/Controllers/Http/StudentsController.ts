@@ -12,7 +12,7 @@ export default class StudentsController {
         return student
       } else {
         response.status(404)
-        return { message: 'Professor não encontrado!' }
+        return { message: 'Estudante não encontrado!' }
       }
     } catch (err: any) {
       response.status(500)
@@ -27,7 +27,7 @@ export default class StudentsController {
       let student: Student | null = await Student.findBy('matricula', payload.matricula)
       if (student) {
         response.status(409)
-        return { message: 'Professor já se encontra cadastrado!' }
+        return { message: 'Estudante já se encontra cadastrado!' }
       }
       student = await Student.create({
         nome: payload.nome,
@@ -51,7 +51,7 @@ export default class StudentsController {
       const teacher: Student | null = await Student.findBy('matricula', payload.matricula)
       if (!teacher) {
         response.status(404)
-        return { message: 'Professor não encontrado!' }
+        return { message: 'Estudante não encontrado!' }
       }
 
       let dataUpdate: Student = await teacher
@@ -77,7 +77,7 @@ export default class StudentsController {
       let student: Student | null = await Student.findBy('matricula', body.matricula)
       if (!student) {
         response.status(404)
-        return { message: 'Professor não encontrado!' }
+        return { message: 'Estudante não encontrado!' }
       }
       await student.delete()
       response.status(204)
