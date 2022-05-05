@@ -29,7 +29,6 @@ export default class TeachersController {
         response.status(409)
         return { message: 'Professor já se encontra cadastrado!' }
       }
-      // let dataParsed: DateTime = DateTime.fromFormat(body.nascimento, 'yyyy-LL-dd')
       teacher = await Teacher.create({
         nome: payload.nome,
         email: payload.email,
