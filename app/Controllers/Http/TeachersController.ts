@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Teacher from 'App/Models/Teacher'
-import { DateTime } from 'luxon'
+import personSchema from 'App/Schemas/personSchema'
 
 export default class TeachersController {
   public async show({ request, response }: HttpContextContract) {
@@ -22,19 +22,19 @@ export default class TeachersController {
     }
   }
   public async store({ request, response }: HttpContextContract) {
-    const body: Record<string, any> = request.body()
+    const payload = await request.validate({ schema: personSchema })
     try {
-      let teacher: Teacher | null = await Teacher.findBy('matricula', body.matricula)
+      let teacher: Teacher | null = await Teacher.findBy('matricula', payload.matricula)
       if (teacher) {
         response.status(409)
         return { message: 'Professor já se encontra cadastrado!' }
       }
-      let dataParsed: DateTime = DateTime.fromFormat(body.nascimento, 'yyyy-LL-dd')
+      // let dataParsed: DateTime = DateTime.fromFormat(body.nascimento, 'yyyy-LL-dd')
       teacher = await Teacher.create({
-        nome: body.nome,
-        email: body.email,
-        matricula: body.matricula,
-        nascimento: dataParsed,
+        nome: payload.nome,
+        email: payload.email,
+        matricula: payload.matricula,
+        nascimento: payload.nascimento,
       })
       response.status(201)
       return teacher
@@ -46,21 +46,21 @@ export default class TeachersController {
     }
   }
   public async update({ request, response }: HttpContextContract) {
-    const body: Record<string, any> = request.body()
+    const payload = await request.validate({ schema: personSchema })
 
     try {
-      const teacher: Teacher | null = await Teacher.findBy('matricula', body.matricula)
+      const teacher: Teacher | null = await Teacher.findBy('matricula', payload.matricula)
       if (!teacher) {
         response.status(404)
         return { message: 'Professor não encontrado!' }
       }
-      let dataParsed: DateTime = DateTime.fromFormat(body.nascimento, 'yyyy-LL-dd')
+
       let dataUpdate: Teacher = await teacher
         .merge({
-          nome: body.nome,
-          email: body.email,
-          matricula: body.matricula,
-          nascimento: dataParsed,
+          nome: payload.nome,
+          email: payload.email,
+          matricula: payload.matricula,
+          nascimento: payload.nascimento,
         })
         .save()
       response.status(200)
