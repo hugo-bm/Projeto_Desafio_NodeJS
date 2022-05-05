@@ -3,7 +3,7 @@ import { test } from '@japa/runner'
 test.group('Teacher', () => {
   test('Cadastrar dados do Professor', async ({ client }) => {
     const response = await client.post('/api/teacher/create').form({
-      nome: 'Professor 1',
+      nome: 'Professor name',
       email: 'professor_1@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'P7342',
@@ -11,7 +11,7 @@ test.group('Teacher', () => {
 
     response.assertStatus(201)
     response.assertBodyContains({
-      nome: 'Professor 1',
+      nome: 'Professor name',
       email: 'professor_1@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'P7342',
@@ -22,7 +22,7 @@ test.group('Teacher', () => {
 
     response.assertStatus(200)
     response.assertBodyContains({
-      nome: 'Professor 1',
+      nome: 'Professor name',
       email: 'professor_1@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'P7342',
