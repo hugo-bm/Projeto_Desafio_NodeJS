@@ -21,7 +21,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/teacher', 'TeachersController.show')
+  Route.get('/teacher/:matricula', 'TeachersController.show')
   Route.post('/teacher/create', 'TeachersController.store')
   Route.post('/teacher/edit', 'TeachersController.update')
   Route.delete('/teacher/delete', 'TeachersController.destroy')

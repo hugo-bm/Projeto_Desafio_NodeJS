@@ -4,9 +4,9 @@ import { DateTime } from 'luxon'
 
 export default class TeachersController {
   public async show({ request, response }: HttpContextContract) {
-    const body: Record<string, any> = request.body()
+    const params: Record<string, any> = request.params()
     try {
-      let teacher: Teacher | null = await Teacher.findBy('matricula', body.matricula)
+      let teacher: Teacher | null = await Teacher.findBy('matricula', params.matricula)
       if (teacher) {
         response.status(200)
         return teacher
