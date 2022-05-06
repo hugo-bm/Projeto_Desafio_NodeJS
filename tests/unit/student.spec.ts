@@ -4,12 +4,13 @@ import { DateTime } from 'luxon'
 
 test.group('Student', () => {
   test('Teste de atribuição de valores', ({ assert }) => {
-    const teacher: Student = new Student()
-    teacher.nome = 'Primeiro Segundo Sobrenome'
-    teacher.email = 'emaiL_email@provedor.com'
-    teacher.nascimento = DateTime.local(2000, 3, 17, { locale: 'br' })
-    assert.equal('Primeiro Segundo Sobrenome', teacher.nome)
-    assert.equal('emaiL_email@provedor.com', teacher.email)
-    assert.equal('17/03/2000', teacher.nascimento.toLocaleString())
+    const student: Student = new Student()
+    student.nome = 'Primeiro Segundo Sobrenome'
+    student.email = 'emaiL_email@provedor.com'
+    student.nascimento = DateTime.local(2000, 3, 17, { locale: 'br' })
+    student.matricula = 'E8526'
+    assert.equal('Primeiro Segundo Sobrenome', student.nome)
+    assert.equal('emaiL_email@provedor.com', student.email)
+    assert.equal('17/03/2000', student.nascimento.toLocaleString())
   })
 })
