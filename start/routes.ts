@@ -21,8 +21,17 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
+  // Routes for Teachers
+
   Route.get('/teacher/:matricula', 'TeachersController.show')
   Route.post('/teacher/create', 'TeachersController.store')
   Route.post('/teacher/edit', 'TeachersController.update')
   Route.delete('/teacher/delete', 'TeachersController.destroy')
+
+  // Routes for Students
+
+  Route.get('/student/:matricula', 'StudentsController.show')
+  Route.post('/student/create', 'StudentsController.store')
+  Route.post('/student/edit', 'StudentsController.update')
+  Route.delete('/student/delete', 'StudentsController.destroy')
 }).prefix('api')
