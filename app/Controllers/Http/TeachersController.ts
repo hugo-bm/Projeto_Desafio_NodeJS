@@ -67,7 +67,7 @@ export default class TeachersController {
     } catch (err: any) {
       response.status(500)
       return {
-        message: 'Error ao concluir o processo de cadastro, contate seu administrador!',
+        message: 'Error ao concluir o processo de atualização de dados, contate seu administrador!',
       }
     }
   }
