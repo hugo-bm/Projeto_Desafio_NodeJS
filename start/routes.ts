@@ -40,7 +40,7 @@ Route.group(() => {
   Route.get('/classroom/student/:matricula', 'ClassroomsController.studentAllClassroom')
   Route.get('/classroom/:matricula/:numero', 'ClassroomsController.show')
   Route.post('/classroom/create', 'ClassroomsController.store')
-  Route.post('/classroom/update', 'ClassroomsController.update')
+  Route.post('/classroom/edit', 'ClassroomsController.update')
   Route.delete('/classroom/delete', 'ClassroomsController.destroy')
   Route.post('/classroom/alloc', 'ClassroomsController.alloc')
   Route.post('/classroom/deallocate', 'ClassroomsController.deallocate')

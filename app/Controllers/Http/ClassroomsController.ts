@@ -91,7 +91,7 @@ export default class ClassroomsController {
           id_prof: teacher?.id,
         })
         .save()
-      response.status(201)
+      response.status(200)
       return dataUpdate
     } catch (err: any) {
       response.status(500)
