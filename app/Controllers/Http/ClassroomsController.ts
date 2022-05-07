@@ -3,13 +3,19 @@ import Classroom from 'App/Models/Classroom'
 import Student from 'App/Models/Student'
 import Teacher from 'App/Models/Teacher'
 import classroomSchemas from 'App/Schemas/classroomSchema'
+import { validator } from '@ioc:Adonis/Core/Validator'
 
 export default class ClassroomsController {
   public async show({ request, response }: HttpContextContract) {
-    const payload: Record<string, any> = request.validate({
+    let params = request.params()
+    const payload: Record<string, any> = await validator.validate({
       schema: classroomSchemas.showAndDeleteSchema,
+      data: {
+        numero: params.numero,
+        matricula_prof: params.matricula,
+      },
     })
-    if ((await Teacher.findBy('matricula', payload.matricula)) === null) {
+    if ((await Teacher.findBy('matricula', payload.matricula_prof)) === null) {
       response.status(400)
       return { message: 'Matricula de professor informada é invalida ou professor não encontrado!' }
     }
@@ -31,19 +37,24 @@ export default class ClassroomsController {
   public async store({ request, response }: HttpContextContract) {
     const payload = await request.validate({ schema: classroomSchemas.persistSchema })
     try {
-      const teacher = await Teacher.findBy('maticula', payload.matricula_prof)
+      const teacher = await Teacher.findBy('matricula', payload.matricula_prof)
       if (!teacher) {
         response.status(400)
         return {
           message: 'Matricula de professor informada é invalida ou professor não encontrado',
         }
       }
-      const classroom = await Classroom.create({
-        numero: payload.numero,
-        capacidade: payload.capacidade,
-        disponivel: payload.disponivel,
-        id_prof: teacher?.id,
-      })
+      const classroom = await Classroom.firstOrCreate(
+        {
+          numero: payload.numero,
+        },
+        {
+          numero: payload.numero,
+          capacidade: payload.capacidade,
+          disponivel: payload.disponivel,
+          id_prof: teacher?.id,
+        }
+      )
       response.status(201)
       return classroom
     } catch (err: any) {
@@ -56,7 +67,7 @@ export default class ClassroomsController {
   public async update({ request, response }: HttpContextContract) {
     const payload = await request.validate({ schema: classroomSchemas.persistSchema })
     try {
-      const teacher = await Teacher.findBy('maticula', payload.matricula_prof)
+      const teacher = await Teacher.findBy('matricula', payload.matricula_prof)
       if (!teacher) {
         response.status(400)
         return {
@@ -90,11 +101,11 @@ export default class ClassroomsController {
     }
   }
   public async destroy({ request, response }: HttpContextContract) {
-    const payload: Record<string, any> = request.validate({
+    const payload: Record<string, any> = await request.validate({
       schema: classroomSchemas.showAndDeleteSchema,
     })
     try {
-      const teacher = await Teacher.findBy('maticula', payload.matricula_prof)
+      const teacher = await Teacher.findBy('matricula', payload.matricula_prof)
       if (!teacher) {
         response.status(400)
         return {
@@ -111,11 +122,11 @@ export default class ClassroomsController {
         return { messsage: 'Porfessor não autorizado!' }
       }
       await classroom.delete()
-      response.status(20)
+      response.status(204)
     } catch (err: any) {
       response.status(500)
       return {
-        message: 'Error ao concluir o processo de autalização de dados, contate seu administrador!',
+        message: 'Error ao concluir o processo de exclusão de dados, contate seu administrador!',
       }
     }
   }
@@ -175,7 +186,7 @@ export default class ClassroomsController {
       }
       await classroom.related('alunos').detach([student.id])
       response.status(200)
-      return { message: 'Estudante alocado com sucesso!' }
+      return { message: 'Estudante desalocado com sucesso!' }
     } catch (err) {
       response.status(500)
       return {
@@ -184,7 +195,14 @@ export default class ClassroomsController {
     }
   }
   public async allStudentsOnClassroom({ request, response }: HttpContextContract) {
-    const payload = await request.validate({ schema: classroomSchemas.allStudents })
+    let params = request.params()
+    const payload = await request.validate({
+      schema: classroomSchemas.allStudents,
+      data: {
+        matricula_prof: params.matricula,
+        numero: params.numero,
+      },
+    })
     const teacher = Teacher.findBy('matricula', payload.matricula_prof)
     if (!teacher) {
       response.status(400)
@@ -208,7 +226,13 @@ export default class ClassroomsController {
     }
   }
   public async studentAllClassroom({ request, response }: HttpContextContract) {
-    const payload = await request.validate({ schema: classroomSchemas.studentAllClassroom })
+    let params = request.params()
+    const payload = await request.validate({
+      schema: classroomSchemas.studentAllClassroom,
+      data: {
+        matricula_estud: params.matricula,
+      },
+    })
     const student: Student | null = await Student.findBy('matricula', payload.matricula_estud)
     if (!student) {
       response.status(400)
