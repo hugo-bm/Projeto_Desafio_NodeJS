@@ -4,7 +4,7 @@ test.group('Student', () => {
   test('Cadastrar dados do Estudante', async ({ client }) => {
     const response = await client.post('/api/student/create').form({
       nome: 'Estudante name',
-      email: 'estudante_2@gmail.com',
+      email: 'estudante_3@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'E1932',
     })
@@ -12,7 +12,7 @@ test.group('Student', () => {
     response.assertStatus(201)
     response.assertBodyContains({
       nome: 'Estudante name',
-      email: 'estudante_2@gmail.com',
+      email: 'estudante_3@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'E1932',
     })
@@ -23,7 +23,7 @@ test.group('Student', () => {
     response.assertStatus(200)
     response.assertBodyContains({
       nome: 'Estudante name',
-      email: 'estudante_2@gmail.com',
+      email: 'estudante_3@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'E1932',
     })
@@ -31,7 +31,7 @@ test.group('Student', () => {
   test('Atualizar dados do Estudante', async ({ client }) => {
     const response = await client.post('/api/student/edit').form({
       nome: 'Pedro',
-      email: 'estudante_2@gmail.com',
+      email: 'estudante_3@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'E1932',
     })
@@ -39,7 +39,7 @@ test.group('Student', () => {
     response.assertStatus(200)
     response.assertBodyContains({
       nome: 'Pedro',
-      email: 'estudante_2@gmail.com',
+      email: 'estudante_3@gmail.com',
       nascimento: '2000-03-17',
       matricula: 'E1932',
     })
