@@ -3,7 +3,7 @@ import { BaseModel, column, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm
 import Student from './Student'
 
 export default class Classroom extends BaseModel {
-  @column({ isPrimary: true })
+  @column({ isPrimary: true, serializeAs: null })
   public id: number
 
   @column()
@@ -15,7 +15,7 @@ export default class Classroom extends BaseModel {
   @column()
   public disponivel: Boolean
 
-  @column()
+  @column({ serializeAs: null })
   public id_prof: Number
 
   @manyToMany(() => Student, {
@@ -23,9 +23,9 @@ export default class Classroom extends BaseModel {
   })
   public alunos: ManyToMany<typeof Student>
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 }
