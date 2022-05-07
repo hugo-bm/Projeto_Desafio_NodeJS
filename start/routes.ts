@@ -34,4 +34,18 @@ Route.group(() => {
   Route.post('/student/create', 'StudentsController.store')
   Route.post('/student/edit', 'StudentsController.update')
   Route.delete('/student/delete', 'StudentsController.destroy')
+
+  // Routes for classrooms
+
+  Route.get('/classroom/student/:matricula', 'ClassroomsController.studentAllClassroom')
+  Route.get('/classroom/:matricula/:numero', 'ClassroomsController.show')
+  Route.post('/classroom/create', 'ClassroomsController.store')
+  Route.post('/classroom/update', 'ClassroomsController.update')
+  Route.delete('/classroom/delete', 'ClassroomsController.destroy')
+  Route.post('/classroom/alloc', 'ClassroomsController.alloc')
+  Route.post('/classroom/deallocate', 'ClassroomsController.deallocate')
+  Route.get(
+    '/classroom/allStudents/:matricula/:numero',
+    'ClassroomsController.allStudentsOnClassroom'
+  )
 }).prefix('api')
