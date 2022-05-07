@@ -29,16 +29,16 @@ test.group('Classrooms', () => {
   test('Atualizar dados da sala', async ({ client }) => {
     const response = await client.post('/api/classroom/edit').form({
       numero: '5263',
-      capacidade: 25,
-      disponivel: 0,
+      capacidade: 27,
+      disponivel: 1,
       matricula_prof: 'P7001',
     })
 
     response.assertStatus(200)
     response.assertBodyContains({
       numero: '5263',
-      capacidade: 25,
-      disponivel: false,
+      capacidade: 27,
+      disponivel: true,
     })
   })
 
@@ -53,10 +53,10 @@ test.group('Classrooms', () => {
     response.assertBodyContains({ message: 'Estudante alocado com sucesso!' })
   })
   test('Consultar salas do Estudante', async ({ client }) => {
-    const response = await client.get('/classroom/student/E0703')
+    const response = await client.get('api/classroom/student/E0703')
     response.assertStatus(200)
     response.assertBodyContains({
-      estudante: 'Estudante J',
+      estudante: 'Estudante F',
       salas: [
         {
           professor: 'Professor F',
@@ -66,7 +66,7 @@ test.group('Classrooms', () => {
     })
   })
   test('Consultar estudantes da sala', async ({ client }) => {
-    const response = await client.get('/classroom/allStudents/P7001/E0703')
+    const response = await client.get('api/classroom/allStudents/P7001/E0703')
 
     response.assertStatus(200)
     response.assertBodyContains([
