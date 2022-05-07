@@ -66,7 +66,7 @@ test.group('Classrooms', () => {
     })
   })
   test('Consultar estudantes da sala', async ({ client }) => {
-    const response = await client.get('api/classroom/allStudents/P7001/E0703')
+    const response = await client.get('api/classroom/allStudents/P7001/5263')
 
     response.assertStatus(200)
     response.assertBodyContains([
