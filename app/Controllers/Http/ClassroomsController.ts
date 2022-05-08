@@ -148,7 +148,8 @@ export default class ClassroomsController {
         response.status(404)
         return { message: 'Sala não encontrada!' }
       }
-      //Query to perform row count
+      // Consulta para realizar contagem de linhas
+      // Query to perform row count
       let students = await Classroom.query()
         .withAggregate('alunos', (query) => {
           query.count('student_id').as('total')
@@ -158,6 +159,8 @@ export default class ClassroomsController {
         response.status(404)
         return { message: 'A sala não está dísponivel!' }
       }
+      // O segundo parâmetro define se não será permitido repetição de linhas
+      // The second parameter defines whether repetition of lines will be allowed
       await classroom.related('alunos').save(student, true)
       response.status(200)
       return { message: 'Estudante alocado com sucesso!' }
